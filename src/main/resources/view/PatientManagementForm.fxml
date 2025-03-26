@@ -2,6 +2,8 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
@@ -28,9 +30,9 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXTextField fx:id="txtName" layoutX="39.0" layoutY="82.0" prefHeight="25.0" prefWidth="100.0" promptText="name" />
-      <JFXTextField fx:id="txtDuration" layoutX="174.0" layoutY="83.0" prefHeight="25.0" prefWidth="108.0" promptText="duration" />
-      <JFXTextField fx:id="txtCost" layoutX="311.0" layoutY="85.0" prefHeight="25.0" prefWidth="108.0" promptText="cost" />
+      <JFXTextField fx:id="patientidtxt" layoutX="39.0" layoutY="82.0" prefHeight="25.0" prefWidth="100.0" promptText="id" />
+      <JFXTextField fx:id="nametxt" layoutX="174.0" layoutY="83.0" prefHeight="25.0" prefWidth="108.0" promptText="name" />
+      <JFXTextField fx:id="contatcttxt" layoutX="311.0" layoutY="85.0" prefHeight="25.0" prefWidth="108.0" promptText="contact" />
       <Label layoutX="203.0" layoutY="27.0" text="Patient Management">
          <font>
             <Font name="System Bold" size="18.0" />
@@ -39,18 +41,19 @@
       <Separator layoutX="193.0" layoutY="69.0" prefWidth="200.0" />
       <TableView fx:id="tblPatient" layoutX="-1.0" layoutY="179.0" prefHeight="220.0" prefWidth="600.0">
          <columns>
-            <TableColumn fx:id="colName" prefWidth="141.0" text="Name" />
-            <TableColumn fx:id="colDuration" prefWidth="129.0" text="Duration" />
-            <TableColumn fx:id="colCost" prefWidth="155.199951171875" text="Cost" />
-            <TableColumn fx:id="colDes" prefWidth="171.20004272460938" text="Decription" />
+            <TableColumn fx:id="colid" prefWidth="120.0" text="id" />
+            <TableColumn fx:id="colname" prefWidth="151.20001220703125" text="name" />
+            <TableColumn fx:id="colcontact" prefWidth="131.20001220703125" text="contact" />
+            <TableColumn fx:id="colgender" prefWidth="94.4000244140625" text="gender" />
+            <TableColumn fx:id="colbday" prefWidth="94.4000244140625" text="Birth Day" />
          </columns>
       </TableView>
-      <JFXTextField fx:id="txtDes" layoutX="458.0" layoutY="83.0" prefHeight="25.0" prefWidth="108.0" promptText="cost" text="description" />
-      <JFXTextField fx:id="txtSearch" layoutX="38.0" layoutY="140.0" onInputMethodTextChanged="#txtSearchTextchange" prefHeight="25.0" prefWidth="279.0" promptText="Search therapy Sessions" />
       <ImageView fx:id="ExitBnt" fitHeight="30.0" fitWidth="33.0" layoutX="20.0" layoutY="17.0" onMouseClicked="#exit">
          <image>
             <Image url="@../img/icons8-logout-48.png" />
          </image>
       </ImageView>
+      <DatePicker fx:id="bdaypicker" layoutX="27.0" layoutY="136.0" promptText="BirthDaytxt" />
+      <ComboBox fx:id="genderpicker" layoutX="436.0" layoutY="90.0" prefWidth="150.0" promptText="Gender" />
    </children>
 </AnchorPane>

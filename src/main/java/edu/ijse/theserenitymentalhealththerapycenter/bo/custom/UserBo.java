@@ -1,4 +1,7 @@
 package edu.ijse.theserenitymentalhealththerapycenter.bo.custom;
 
-public interface UserBo {
+import edu.ijse.theserenitymentalhealththerapycenter.bo.SuperBo;
+
+public interface UserBo extends SuperBo {
+
 }

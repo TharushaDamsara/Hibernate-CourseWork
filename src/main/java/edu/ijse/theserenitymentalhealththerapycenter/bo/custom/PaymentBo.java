@@ -1,4 +1,6 @@
 package edu.ijse.theserenitymentalhealththerapycenter.bo.custom;
 
-public interface PaymentBo {
+import edu.ijse.theserenitymentalhealththerapycenter.bo.SuperBo;
+
+public interface PaymentBo extends SuperBo {
 }

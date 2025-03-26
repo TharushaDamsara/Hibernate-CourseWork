@@ -1,4 +1,7 @@
 package edu.ijse.theserenitymentalhealththerapycenter.dao.custom;
 
-public interface TheraphyProgrammeDao {
+import edu.ijse.theserenitymentalhealththerapycenter.dao.CrudDao;
+import edu.ijse.theserenitymentalhealththerapycenter.entity.TheraphyPorgramme;
+
+public interface TheraphyProgrammeDao extends CrudDao<TheraphyPorgramme> {
 }
