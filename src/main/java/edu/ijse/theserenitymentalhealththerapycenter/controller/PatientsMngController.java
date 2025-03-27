@@ -6,9 +6,7 @@ import edu.ijse.theserenitymentalhealththerapycenter.bo.BoFactory;
 import edu.ijse.theserenitymentalhealththerapycenter.bo.custom.PatientBo;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.PatientDto;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.tm.PatientTm;
-import edu.ijse.theserenitymentalhealththerapycenter.entity.Patient;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -82,10 +80,9 @@ public class PatientsMngController implements Initializable {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        String patientid = patientidtxt.getText();
-        PatientDto patientDto = new PatientDto();
-        patientDto.setId(patientid);
-        boolean resp = patientBo.delete(patientDto);
+        String pk = patientidtxt.getText();
+
+        boolean resp = patientBo.deletebypk(pk);
     }
 
     @FXML
@@ -158,6 +155,9 @@ public class PatientsMngController implements Initializable {
         genderpicker.setValue("");
         bdaypicker.setValue(null);
 
+//        btnSave.setDisable(false);
+//        btnDelete.setDisable(true);
+//        btnUpdate.setDisable(true);
     }
 
     private void tabelLoad() {
@@ -174,5 +174,21 @@ public class PatientsMngController implements Initializable {
         patients.add(patientTm);
     }
     tblPatient.setItems(patients);
+    }
+
+    public void onclick(MouseEvent mouseEvent) {
+
+        PatientTm selectedItem = tblPatient.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            patientidtxt.setText(selectedItem.getId());
+            nametxt.setText(selectedItem.getName());
+            contatcttxt.setText(selectedItem.getContactInfo());
+            genderpicker.setValue(selectedItem.getGender());
+            bdaypicker.setValue(LocalDate.parse(selectedItem.getBirthDate()));
+            btnSave.setDisable(true);
+            btnDelete.setDisable(false);
+            btnUpdate.setDisable(false);
+
+        }
     }
 }

@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,22 +16,25 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.theserenitymentalhealththerapycenter.controller.TherapySessionSchedulingController">
    <children>
-      <JFXTextField fx:id="txtcost" layoutX="305.0" layoutY="85.0" prefHeight="25.0" prefWidth="108.0" promptText="cost" />
+      <JFXTextField fx:id="txtid" layoutX="18.0" layoutY="76.0" prefHeight="26.0" prefWidth="76.0" promptText="Id" />
       <Label layoutX="169.0" layoutY="30.0" text="Therapy Session Scheduling">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Separator layoutX="187.0" layoutY="69.0" prefWidth="200.0" />
-      <JFXTextField fx:id="txtDes" layoutX="452.0" layoutY="83.0" prefHeight="25.0" prefWidth="108.0" promptText="cost" text="description" />
-      <JFXComboBox fx:id="cbTheropy" layoutX="26.0" layoutY="83.0" prefHeight="25.0" prefWidth="120.0" promptText="therapy " />
-      <JFXComboBox fx:id="cbPatient" layoutX="157.0" layoutY="83.0" prefHeight="25.0" prefWidth="120.0" promptText="patient" />
+      <JFXTextField fx:id="txtstaus" layoutX="466.0" layoutY="71.0" prefHeight="25.0" prefWidth="108.0" promptText="cost" text="status" />
+      <JFXComboBox fx:id="cbTheropy" layoutX="282.0" layoutY="75.0" prefHeight="25.0" prefWidth="120.0" promptText="therapy " />
+      <JFXComboBox fx:id="cbPatient" layoutX="129.0" layoutY="76.0" prefHeight="25.0" prefWidth="120.0" promptText="patient" />
       <TableView fx:id="tbtTherapyShedule" layoutX="-2.0" layoutY="189.0" prefHeight="210.0" prefWidth="600.0">
          <columns>
-            <TableColumn fx:id="colName" prefWidth="141.0" text="Name" />
-            <TableColumn fx:id="colDueration" prefWidth="129.0" text="Duration" />
-            <TableColumn fx:id="colCost" prefWidth="148.79998779296875" text="Cost" />
-            <TableColumn fx:id="colDes" prefWidth="179.19998168945312" text="Decription" />
+            <TableColumn fx:id="colid" prefWidth="83.99999845027924" text="ID" />
+            <TableColumn fx:id="colpatient" prefWidth="101.60004425048828" text="Patient" />
+            <TableColumn fx:id="coltherapy" prefWidth="105.5999755859375" text="Therapist" />
+            <TableColumn fx:id="colStatus" prefWidth="92.0" text="Status" />
+            <TableColumn fx:id="colthrpyprgrm" prefWidth="97.59991455078125" text="Programme" />
+            <TableColumn fx:id="colDate" prefWidth="75.99996948242188" text="Date" />
+            <TableColumn fx:id="colTime" prefWidth="40.0" text="Time" />
          </columns>
       </TableView>
       <JFXButton fx:id="btnSave" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="339.0" layoutY="149.0" minHeight="30.0" onAction="#btnSaveOnAction" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #1e272e; -fx-background-radius: 5;" text="Save" textFill="#00f730">
@@ -54,5 +58,7 @@
             <Image url="@../img/icons8-logout-48.png" />
          </image>
       </ImageView>
+      <TextField fx:id="txttime" layoutX="211.0" layoutY="136.0" prefHeight="26.0" prefWidth="76.0" promptText="Time" />
+      <JFXComboBox fx:id="cbTheropyprogramme" layoutX="375.0" layoutY="113.0" prefHeight="26.0" prefWidth="134.0" promptText="therapy Programme" />
    </children>
 </AnchorPane>

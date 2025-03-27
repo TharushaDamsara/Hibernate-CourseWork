@@ -14,24 +14,26 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.theserenitymentalhealththerapycenter.controller.PaymentInvoiceManagementController">
    <children>
-      <JFXTextField fx:id="txtPayment" layoutX="271.0" layoutY="83.0" prefHeight="25.0" prefWidth="108.0" promptText="cost" text="payment" />
+      <JFXTextField fx:id="txtPayment" layoutX="372.0" layoutY="83.0" onMouseClicked="#loadpayment" prefHeight="25.0" prefWidth="108.0" promptText="cost" text="payment" />
       <Label layoutX="163.0" layoutY="28.0" text="Payment &amp; Invoice Management">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Separator layoutX="193.0" layoutY="69.0" prefWidth="200.0" />
-      <TableView layoutX="-1.0" layoutY="179.0" prefHeight="222.0" prefWidth="600.0">
+      <TableView fx:id="tblPayment" layoutY="172.0" onMouseClicked="#tblclicked" prefHeight="222.0" prefWidth="625.0">
          <columns>
-            <TableColumn fx:id="colTheropy" prefWidth="141.0" text="Theropy" />
-            <TableColumn fx:id="colPatients" prefWidth="129.0" text="Patient" />
-            <TableColumn fx:id="colPayment" prefWidth="164.0" text="Payement" />
-            <TableColumn fx:id="colStatus" prefWidth="163.99993896484375" text="Status" />
+            <TableColumn fx:id="colId" prefWidth="96.79999083280563" text="Payment ID" />
+            <TableColumn fx:id="colPatients" prefWidth="104.800048828125" text="Patient" />
+            <TableColumn fx:id="colPayment" prefWidth="112.79997253417969" text="Payement" />
+            <TableColumn fx:id="colStatus" prefWidth="124.0" text="Status" />
+            <TableColumn fx:id="datecol" prefWidth="87.20001220703125" text="Date" />
+            <TableColumn fx:id="colTheropy" prefWidth="94.40008544921875" text="Theropy" />
          </columns>
       </TableView>
-      <JFXComboBox fx:id="cbTheropy" layoutX="24.0" layoutY="83.0" prefHeight="25.0" prefWidth="100.0" promptText="theropy" />
-      <JFXComboBox fx:id="cbPatients" layoutX="143.0" layoutY="83.0" prefHeight="25.0" prefWidth="100.0" promptText="patient" />
-      <JFXComboBox fx:id="cbStatus" layoutX="402.0" layoutY="83.0" prefHeight="25.0" prefWidth="100.0" promptText="status" />
+      <JFXComboBox fx:id="cbTheropy" layoutX="128.0" layoutY="83.0" prefHeight="25.0" prefWidth="100.0" promptText="theropy" />
+      <JFXComboBox fx:id="cbPatients" layoutX="251.0" layoutY="83.0" prefHeight="25.0" prefWidth="100.0" promptText="patient" />
+      <JFXComboBox fx:id="cbStatus" layoutX="497.0" layoutY="83.0" prefHeight="25.0" prefWidth="100.0" promptText="status" />
       <JFXButton fx:id="btnReport" buttonType="RAISED" layoutX="24.0" layoutY="135.0" onAction="#btnReportOnAction" style="-fx-background-color: #1e272e;" text="Generate Report" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
@@ -57,5 +59,7 @@
             <Image url="@../img/icons8-logout-48.png" />
          </image>
       </ImageView>
+      <Label fx:id="datelbl" layoutX="510.0" layoutY="19.0" prefHeight="18.0" prefWidth="85.0" text="Date" />
+      <JFXTextField fx:id="txtid" layoutX="13.0" layoutY="82.0" onMouseClicked="#loadpayment" prefHeight="26.0" prefWidth="100.0" text="ID" />
    </children>
 </AnchorPane>
