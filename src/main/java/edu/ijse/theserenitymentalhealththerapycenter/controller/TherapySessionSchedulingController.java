@@ -37,7 +37,35 @@ public class TherapySessionSchedulingController implements Initializable {
         colthrpyprgrm.setCellValueFactory(new PropertyValueFactory<>("therapyProgramId"));
 
         loadtbl();
+        loadcombos();
         clearForm();
+    }
+
+    private void loadcombos() {
+    loadthearpycomb();
+    loadpatientcomb();
+    loadprogrammecomb();
+    }
+
+    private void loadprogrammecomb() {
+        ArrayList<String> proggrammeIds = bo.getAlprgrammeIds();
+        ObservableList<String> observableList = FXCollections.observableArrayList();
+        observableList.addAll(proggrammeIds);
+        cbTheropyprogramme.setItems(observableList);
+    }
+
+    private void loadpatientcomb() {
+        ArrayList<String> patientIds = bo.getAlpatientIds();
+        ObservableList<String> observableList = FXCollections.observableArrayList();
+        observableList.addAll(patientIds);
+        cbTheropyprogramme.setItems(observableList);
+    }
+
+    private void loadthearpycomb() {
+        ArrayList<String> theraphistIds = bo.getAltherapistIds();
+        ObservableList<String> observableList = FXCollections.observableArrayList();
+        observableList.addAll(theraphistIds);
+        cbTheropyprogramme.setItems(observableList);
     }
 
     private void clearForm() {
@@ -154,7 +182,7 @@ public class TherapySessionSchedulingController implements Initializable {
 
         TheraphySessionDto dto = new TheraphySessionDto(id, date, time, sttus, theropist, patient, programme);
         boolean resp= bo.update(dto);
-    } 
+    }
 
     @FXML
     void exit(MouseEvent event) {

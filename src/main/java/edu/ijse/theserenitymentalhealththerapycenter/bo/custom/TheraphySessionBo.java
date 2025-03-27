@@ -13,4 +13,10 @@ public interface TheraphySessionBo extends SuperBo {
     boolean update(TheraphySessionDto dto);
 
     boolean deleteByPk(String pk);
+
+    ArrayList<String> getAlprgrammeIds();
+
+    ArrayList<String> getAlpatientIds();
+
+    ArrayList<String> getAltherapistIds();
 }
