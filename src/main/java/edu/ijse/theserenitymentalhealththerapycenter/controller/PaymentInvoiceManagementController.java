@@ -72,21 +72,21 @@ public class PaymentInvoiceManagementController implements Initializable {
     }
 
     private void loadTabel() {
-        ArrayList<PaymentDto> paymentDtos = paymentBo.getAll();
-        ObservableList<PaymentTm> paymentTms = FXCollections.observableArrayList();
-        for (PaymentDto paymentDto : paymentDtos) {
-            PaymentTm paymentTm = new PaymentTm(
-                    paymentDto.getId(),
-                    paymentDto.getAmount(),
-                    paymentDto.getDate(),
-                    paymentDto.getPatient(),
-                    paymentDto.getTherapySessionId(),
-                    paymentDto.getStatus()
-            );
-            paymentTms.add(paymentTm);
-        }
-        tblPayment.setItems(paymentTms);
-    }
+//        ArrayList<PaymentDto> paymentDtos = paymentBo.getAll();
+//        ObservableList<PaymentTm> paymentTms = FXCollections.observableArrayList();
+//        for (PaymentDto paymentDto : paymentDtos) {
+//            PaymentTm paymentTm = new PaymentTm(
+//                    paymentDto.getId(),
+//                    paymentDto.getAmount(),
+//                    paymentDto.getDate(),
+//                    paymentDto.getPatient(),
+//                    paymentDto.getTherapySessionId(),
+//                    paymentDto.getStatus()
+//            );
+//            paymentTms.add(paymentTm);
+//        }
+//        tblPayment.setItems(paymentTms);
+   }
 
     PaymentBo paymentBo = (PaymentBo) BoFactory.getInstance().getboType(BoFactory.botype.Payment);
 
