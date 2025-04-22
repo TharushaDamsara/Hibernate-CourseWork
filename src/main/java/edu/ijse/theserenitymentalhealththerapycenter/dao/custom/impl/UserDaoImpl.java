@@ -5,6 +5,7 @@ import edu.ijse.theserenitymentalhealththerapycenter.dao.custom.UserDao;
 import edu.ijse.theserenitymentalhealththerapycenter.entity.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserDaoImpl implements UserDao {
     @Override
@@ -18,7 +19,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public ArrayList<User> getAll() {
+    public List<User> getAll() {
         return null;
     }
 

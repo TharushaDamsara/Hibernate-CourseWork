@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class TherapistsMngController implements Initializable {
@@ -48,7 +49,7 @@ public class TherapistsMngController implements Initializable {
     }
 
     private void loadtbl() {
-                ArrayList<TheraphistDto> theropistDtos = bo.getAll();
+        List<TheraphistDto> theropistDtos = bo.getAll();
         ObservableList<TheraphistTm> therapistTms = FXCollections.observableArrayList();
         for (TheraphistDto therapisttDto :theropistDtos) {
             TheraphistTm therapistTm = new TheraphistTm(
@@ -113,6 +114,7 @@ TheraphistBo bo = (TheraphistBo) BoFactory.getInstance().getboType(BoFactory.bot
     void btnDeleteOnAction(ActionEvent event) {
         String pk = txtid.getText();
         boolean resp = bo.deletebypk(pk);
+        clearform();
     }
 
     @FXML
@@ -126,8 +128,11 @@ TheraphistBo bo = (TheraphistBo) BoFactory.getInstance().getboType(BoFactory.bot
         String name = txtName.getText();
         String spec = txtStatus.getText();
 
+
+
         TheraphistDto theraphistDto = new TheraphistDto(id, name, spec);
         boolean resp = bo.save(theraphistDto);
+        clearform();
     }
 
     @FXML
@@ -138,6 +143,15 @@ TheraphistBo bo = (TheraphistBo) BoFactory.getInstance().getboType(BoFactory.bot
 
         TheraphistDto theraphistDto = new TheraphistDto(id, name, spec);
         boolean resp = bo.update(theraphistDto);
+        clearform();
     }
 
+    public void tblclicked(MouseEvent mouseEvent) {
+        TheraphistTm selectedItem = tblTherapist.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            txtid.setText(selectedItem.getId());
+            txtName.setText(selectedItem.getName());
+            txtStatus.setText(selectedItem.getSpecialization());
+        }
+    }
 }

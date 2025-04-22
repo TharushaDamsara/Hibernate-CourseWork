@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PatientsMngController implements Initializable {
@@ -81,8 +82,8 @@ public class PatientsMngController implements Initializable {
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         String pk = patientidtxt.getText();
-
         boolean resp = patientBo.deletebypk(pk);
+        reload();
     }
 
     @FXML
@@ -95,6 +96,7 @@ public class PatientsMngController implements Initializable {
 
         PatientDto patientDto = new PatientDto(patientid,name,contact,gender,bday);
         boolean resp = patientBo.save(patientDto);
+        reload();
 
     }
 
@@ -110,6 +112,7 @@ public class PatientsMngController implements Initializable {
 
         PatientDto patientDto = new PatientDto(patientid,name,contact,gender,bday);
         boolean resp = patientBo.update(patientDto);
+        reload();
     }
 
     @FXML
@@ -132,6 +135,7 @@ public class PatientsMngController implements Initializable {
         
         reload();
         genderpick();
+//        tabelLoad();
     }
 
     private void genderpick() {
@@ -161,7 +165,8 @@ public class PatientsMngController implements Initializable {
     }
 
     private void tabelLoad() {
-    ArrayList<PatientDto> patientDtos = patientBo.getAll();
+
+    List<PatientDto> patientDtos = patientBo.getAll();
     ObservableList<PatientTm> patients = FXCollections.observableArrayList();
     for (PatientDto patientDto : patientDtos) {
         PatientTm patientTm = new PatientTm(

@@ -5,6 +5,7 @@ import edu.ijse.theserenitymentalhealththerapycenter.dao.custom.TheraphySessionD
 import edu.ijse.theserenitymentalhealththerapycenter.entity.TheraphySession;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TheraphySessonDaoImpl implements TheraphySessionDao {
     @Override
@@ -18,7 +19,7 @@ public class TheraphySessonDaoImpl implements TheraphySessionDao {
     }
 
     @Override
-    public ArrayList<TheraphySession> getAll() {
+    public List<TheraphySession> getAll() {
         return null;
     }
 

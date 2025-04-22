@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -28,4 +30,8 @@ public class TheraphySession implements SuperEntity{
     @ManyToOne
     @JoinColumn(name = "program_id")
     private TheraphyPorgramme therapyProgram;
+
+    public Optional<Object> findById(String therapySession) {
+        return null;
+    }
 }

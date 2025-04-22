@@ -5,6 +5,7 @@ import edu.ijse.theserenitymentalhealththerapycenter.dao.custom.PaymentDao;
 import edu.ijse.theserenitymentalhealththerapycenter.entity.Payment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PaymentDaoImpl implements PaymentDao {
     @Override
@@ -18,7 +19,7 @@ public class PaymentDaoImpl implements PaymentDao {
     }
 
     @Override
-    public ArrayList<Payment> getAll() {
+    public List<Payment> getAll() {
         return null;
     }
 

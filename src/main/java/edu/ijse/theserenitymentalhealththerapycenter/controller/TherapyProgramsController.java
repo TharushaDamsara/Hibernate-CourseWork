@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class TherapyProgramsController implements Initializable {
@@ -34,15 +35,20 @@ public class TherapyProgramsController implements Initializable {
         colCost.setCellValueFactory(new PropertyValueFactory<>("fee"));
         colDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
-        loadtbl();
         clearFoarm();
     }
 
     private void clearFoarm() {
+        txtid.setText("");
+        txtName.setText("");
+        txtCost.setText("");
+        txtDuration.setText("");
+
+        loadtbl();
     }
 
     private void loadtbl() {
-        ArrayList<TheraphyPorgrammeDto> dtos = bo.getAll();
+        List<TheraphyPorgrammeDto> dtos = bo.getAll();
         ObservableList<TheraphyPorgrammeTm> Tms = FXCollections.observableArrayList();
         for (TheraphyPorgrammeDto dto : dtos) {
             TheraphyPorgrammeTm tm = new TheraphyPorgrammeTm(
@@ -102,6 +108,7 @@ TheraphyProgrammeBo bo = (TheraphyProgrammeBo) BoFactory.getInstance().getboType
     void btnDeleteOnAction(ActionEvent event) {
         String pk = txtid.getText();
         boolean resp = bo.deletebyPk(pk);
+        clearFoarm();
     }
 
     @FXML
@@ -117,6 +124,7 @@ TheraphyProgrammeBo bo = (TheraphyProgrammeBo) BoFactory.getInstance().getboType
         double cost = Double.parseDouble(txtCost.getText());
          TheraphyPorgrammeDto dto = new TheraphyPorgrammeDto(id, name, duration, cost);
         boolean resp = bo.save(dto);
+        clearFoarm();
     }
 
     @FXML
@@ -127,6 +135,7 @@ TheraphyProgrammeBo bo = (TheraphyProgrammeBo) BoFactory.getInstance().getboType
         double cost = Double.parseDouble(txtCost.getText());
         TheraphyPorgrammeDto dto = new TheraphyPorgrammeDto(id, name, duration, cost);
         boolean resp = bo.update(dto);
+        clearFoarm();
     }
 
     @FXML
@@ -139,4 +148,13 @@ TheraphyProgrammeBo bo = (TheraphyProgrammeBo) BoFactory.getInstance().getboType
         window.show();
     }
 
+    public void tblclicked(MouseEvent mouseEvent) {
+        TheraphyPorgrammeTm selectedItem = tblTherapyprogram.getSelectionModel().getSelectedItem();
+        txtid.setText(selectedItem.getProgramId());
+        txtName.setText(selectedItem.getName());
+        txtDuration.setText(selectedItem.getDuration());
+        txtCost.setText(String.valueOf(selectedItem.getFee()));
+
+
+    }
 }

@@ -3,10 +3,10 @@ package edu.ijse.theserenitymentalhealththerapycenter.bo.custom;
 import edu.ijse.theserenitymentalhealththerapycenter.bo.SuperBo;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.TheraphistDto;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface TheraphistBo extends SuperBo {
-    ArrayList<TheraphistDto> getAll();
+    List<TheraphistDto> getAll();
 
     boolean save(TheraphistDto theraphistDto);
 
