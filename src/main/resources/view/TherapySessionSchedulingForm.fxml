@@ -23,10 +23,10 @@
          </font>
       </Label>
       <Separator layoutX="187.0" layoutY="69.0" prefWidth="200.0" />
-      <JFXTextField fx:id="txtstaus" layoutX="466.0" layoutY="71.0" prefHeight="25.0" prefWidth="108.0" promptText="cost" text="status" />
+      <JFXTextField fx:id="txtstaus" layoutX="466.0" layoutY="71.0" prefHeight="25.0" prefWidth="108.0" promptText="status" />
       <JFXComboBox fx:id="cbTheropy" layoutX="282.0" layoutY="75.0" prefHeight="25.0" prefWidth="120.0" promptText="therapy " />
       <JFXComboBox fx:id="cbPatient" layoutX="129.0" layoutY="76.0" prefHeight="25.0" prefWidth="120.0" promptText="patient" />
-      <TableView fx:id="tbtTherapyShedule" layoutX="-2.0" layoutY="189.0" prefHeight="210.0" prefWidth="600.0">
+      <TableView fx:id="tbtTherapyShedule" layoutX="-2.0" layoutY="189.0" onMouseClicked="#tblcliked" prefHeight="210.0" prefWidth="600.0">
          <columns>
             <TableColumn fx:id="colid" prefWidth="83.99999845027924" text="ID" />
             <TableColumn fx:id="colpatient" prefWidth="101.60004425048828" text="Patient" />

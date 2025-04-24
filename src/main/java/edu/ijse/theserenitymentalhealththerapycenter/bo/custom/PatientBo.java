@@ -5,8 +5,10 @@ import edu.ijse.theserenitymentalhealththerapycenter.dto.PatientDto;
 import edu.ijse.theserenitymentalhealththerapycenter.entity.Patient;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PatientBo extends SuperBo {
+    public Optional<String> getLastPK();
     boolean save(PatientDto patientDto);
     boolean update(PatientDto patientDto);
     List<PatientDto> getAll();

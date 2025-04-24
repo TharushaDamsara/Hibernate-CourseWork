@@ -4,13 +4,15 @@ package edu.ijse.theserenitymentalhealththerapycenter.dao.custom.impl;
 import edu.ijse.theserenitymentalhealththerapycenter.config.FactoryConfiguration;
 import edu.ijse.theserenitymentalhealththerapycenter.dao.custom.TheraphistDao;
 import edu.ijse.theserenitymentalhealththerapycenter.entity.Theraphist;
+import edu.ijse.theserenitymentalhealththerapycenter.entity.TheraphyPorgramme;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class TheraphistDaoImpl implements TheraphistDao {
     private final FactoryConfiguration factoryConfiguration = FactoryConfiguration.getInstance();
@@ -83,5 +85,33 @@ public class TheraphistDaoImpl implements TheraphistDao {
             }
         }
         return false;
+    }
+
+    @Override
+    public Optional<String> getLastPK() {
+        return Optional.empty();
+    }
+
+    @Override
+    public Theraphist getDetails(String selectedItem) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        session.beginTransaction();
+        Theraphist theraphist = session.get(Theraphist.class, selectedItem);
+        session.getTransaction().commit();
+        session.close();
+        return theraphist;
+    }
+
+    @Override
+    public ArrayList<Theraphist> getAltherapistIds() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        session.beginTransaction();
+
+        Query<Theraphist> query = session.createQuery("FROM Theraphist", Theraphist.class);
+        List<Theraphist> results = query.getResultList();
+
+        session.getTransaction().commit();
+        session.close();
+        return (ArrayList<Theraphist>) results;
     }
 }

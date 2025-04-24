@@ -5,6 +5,9 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import edu.ijse.theserenitymentalhealththerapycenter.bo.BoFactory;
 import edu.ijse.theserenitymentalhealththerapycenter.bo.custom.TheraphySessionBo;
+import edu.ijse.theserenitymentalhealththerapycenter.dto.PatientDto;
+import edu.ijse.theserenitymentalhealththerapycenter.dto.TheraphistDto;
+import edu.ijse.theserenitymentalhealththerapycenter.dto.TheraphyPorgrammeDto;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.TheraphySessionDto;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.tm.TheraphySessionTm;
 import javafx.collections.FXCollections;
@@ -23,112 +26,21 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class TherapySessionSchedulingController implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        colid.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        colTime.setCellValueFactory(new PropertyValueFactory<>("time"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-        coltherapy.setCellValueFactory(new PropertyValueFactory<>("therapistId"));
-        colpatient.setCellValueFactory(new PropertyValueFactory<>("patientId"));
-        colthrpyprgrm.setCellValueFactory(new PropertyValueFactory<>("therapyProgramId"));
 
-        loadtbl();
-        loadcombos();
-        clearForm();
-    }
-
-    private void loadcombos() {
-    loadthearpycomb();
-    loadpatientcomb();
-    loadprogrammecomb();
-    }
-
-    private void loadprogrammecomb() {
-        ArrayList<String> proggrammeIds = bo.getAlprgrammeIds();
-        ObservableList<String> observableList = FXCollections.observableArrayList();
-        observableList.addAll(proggrammeIds);
-        cbTheropyprogramme.setItems(observableList);
-    }
-
-    private void loadpatientcomb() {
-        ArrayList<String> patientIds = bo.getAlpatientIds();
-        ObservableList<String> observableList = FXCollections.observableArrayList();
-        observableList.addAll(patientIds);
-        cbTheropyprogramme.setItems(observableList);
-    }
-
-    private void loadthearpycomb() {
-        ArrayList<String> theraphistIds = bo.getAltherapistIds();
-        ObservableList<String> observableList = FXCollections.observableArrayList();
-        observableList.addAll(theraphistIds);
-        cbTheropyprogramme.setItems(observableList);
-    }
-
-    private void clearForm() {
-    }
-
-    private void loadtbl() {
-        ArrayList<TheraphySessionDto> dtos = bo.getAll();
-        ObservableList<TheraphySessionTm> tms = FXCollections.observableArrayList();
-        for (TheraphySessionDto dto :dtos) {
-            TheraphySessionTm tm = new TheraphySessionTm(
-                    dto.getId(),
-                    dto.getDate(),
-                    dto.getTime(),
-                    dto.getStatus(),
-                    dto.getTherapistId(),
-                    dto.getPatientId(),
-                    dto.getTherapyProgramId()
-            );
-            tms.add(tm);
-        }
-        tbtTherapyShedule.setItems(tms);
-    }
-
-    TheraphySessionBo bo = (TheraphySessionBo) BoFactory.getInstance().getboType(BoFactory.botype.TherapySession);
+    private final TheraphySessionBo bo = (TheraphySessionBo) BoFactory.getInstance().getboType(BoFactory.botype.TherapySession);
 
     @FXML
-    private JFXButton btnDelete;
+    private JFXButton btnDelete, btnSave, btnUpdate;
 
     @FXML
-    private JFXButton btnSave;
+    private JFXComboBox<String> cbPatient, cbTheropy, cbTheropyprogramme;
 
     @FXML
-    private JFXButton btnUpdate;
-
-    @FXML
-    private JFXComboBox<String> cbPatient;
-
-    @FXML
-    private JFXComboBox<String> cbTheropy;
-
-    @FXML
-    private JFXComboBox<String> cbTheropyprogramme;
-
-    @FXML
-    private TableColumn<String, TheraphySessionTm> colDate;
-
-    @FXML
-    private TableColumn<String, TheraphySessionTm> colStatus;
-
-    @FXML
-    private TableColumn<String, TheraphySessionTm> colTime;
-
-    @FXML
-    private TableColumn<String, TheraphySessionTm> colid;
-
-    @FXML
-    private TableColumn<String, TheraphySessionTm> colpatient;
-
-    @FXML
-    private TableColumn<String, TheraphySessionTm> coltherapy;
-
-    @FXML
-    private TableColumn<String, TheraphySessionTm> colthrpyprgrm;
+    private TableColumn<String, TheraphySessionTm> colDate, colStatus, colTime, colid, colpatient, coltherapy, colthrpyprgrm;
 
     @FXML
     private DatePicker dpSessionDate;
@@ -140,18 +52,82 @@ public class TherapySessionSchedulingController implements Initializable {
     private TableView<TheraphySessionTm> tbtTherapyShedule;
 
     @FXML
-    private JFXTextField txtid;
-
-    @FXML
-    private JFXTextField txtstaus;
+    private JFXTextField txtid, txtstaus;
 
     @FXML
     private TextField txttime;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        colid.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        coltherapy.setCellValueFactory(new PropertyValueFactory<>("therapistId"));
+        colpatient.setCellValueFactory(new PropertyValueFactory<>("patientId"));
+        colthrpyprgrm.setCellValueFactory(new PropertyValueFactory<>("therapyProgramId"));
+
+        loadCombos();
+        loadTable();
+        clearForm();
+    }
+
+    private void loadCombos() {
+        loadTherapistCombo();
+        loadPatientCombo();
+        loadProgrammeCombo();
+    }
+
+    private void loadTherapistCombo() {
+        ArrayList<String> ids = bo.getAltherapistIds();
+        cbTheropy.setItems(FXCollections.observableArrayList(ids));
+    }
+
+    private void loadPatientCombo() {
+        ArrayList<String> ids = bo.getAlpatientIds();
+        cbPatient.setItems(FXCollections.observableArrayList(ids));
+    }
+
+    private void loadProgrammeCombo() {
+        ArrayList<String> ids = bo.getAlprgrammeIds();
+        cbTheropyprogramme.setItems(FXCollections.observableArrayList(ids));
+    }
+
+    private void loadTable() {
+
+        List<TheraphySessionDto> dtos = bo.getAll();
+        ObservableList<TheraphySessionTm> tms = FXCollections.observableArrayList();
+
+        for (TheraphySessionDto dto : dtos) {
+            String therapistId = dto.getTherapist() != null ? dto.getTherapist().getId() : "N/A";
+            String patientId = dto.getPatient() != null ? dto.getPatient().getId() : "N/A";
+            String programId = dto.getTherapyProgram() != null ? dto.getTherapyProgram().getProgramId() : "N/A";
+
+            tms.add(new TheraphySessionTm(dto.getId(), dto.getDate(), dto.getTime(), dto.getStatus(), therapistId, patientId, programId));
+        }
+
+        tbtTherapyShedule.setItems(tms);
+    }
+
+    private void clearForm() {
+        txtid.clear();
+        txtstaus.clear();
+        txttime.clear();
+        cbTheropy.setValue(null);
+        cbPatient.setValue(null);
+        cbTheropyprogramme.setValue(null);
+        dpSessionDate.setValue(null);
+
+        loadTable();
+    }
+
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         String pk = txtid.getText();
-        boolean resp= bo.deleteByPk(pk);
+        if (pk != null && !pk.isEmpty()) {
+            bo.deleteByPk(pk);
+        }
+        clearForm();
     }
 
     @FXML
@@ -159,15 +135,25 @@ public class TherapySessionSchedulingController implements Initializable {
         String id = txtid.getText();
         String date = String.valueOf(dpSessionDate.getValue());
         String time = txttime.getText();
-        String sttus = txtstaus.getText();
-        String theropist = cbTheropy.getValue();
-        String patient = cbPatient.getValue();
-        String programme = cbTheropyprogramme.getValue();
+        String status = txtstaus.getText();
 
-        TheraphySessionDto dto = new TheraphySessionDto(id, date, time, sttus, theropist, patient, programme);
-        boolean resp= bo.save(dto);
+        String therapistId = cbTheropy.getValue();
+        String patientId = cbPatient.getValue();
+        String programId = cbTheropyprogramme.getValue();
 
+        TheraphistDto therapist = new TheraphistDto();
+        therapist.setId(therapistId);
 
+        PatientDto patient = new PatientDto();
+        patient.setId(patientId);
+
+        TheraphyPorgrammeDto program = new TheraphyPorgrammeDto();
+        program.setProgramId(programId);
+
+        TheraphySessionDto dto = new TheraphySessionDto(id, date, time, status, therapist, patient, program);
+
+        bo.save(dto);
+        clearForm();
     }
 
     @FXML
@@ -175,18 +161,43 @@ public class TherapySessionSchedulingController implements Initializable {
         String id = txtid.getText();
         String date = String.valueOf(dpSessionDate.getValue());
         String time = txttime.getText();
-        String sttus = txtstaus.getText();
-        String theropist = cbTheropy.getValue();
-        String patient = cbPatient.getValue();
-        String programme = cbTheropyprogramme.getValue();
+        String status = txtstaus.getText();
 
-        TheraphySessionDto dto = new TheraphySessionDto(id, date, time, sttus, theropist, patient, programme);
-        boolean resp= bo.update(dto);
+        String therapistId = cbTheropy.getValue();
+        String patientId = cbPatient.getValue();
+        String programId = cbTheropyprogramme.getValue();
+
+        TheraphistDto therapist = new TheraphistDto();
+        therapist.setId(therapistId);
+
+        PatientDto patient = new PatientDto();
+        patient.setId(patientId);
+
+        TheraphyPorgrammeDto program = new TheraphyPorgrammeDto();
+        program.setProgramId(programId);
+
+        TheraphySessionDto dto = new TheraphySessionDto(id, date, time, status, therapist, patient, program);
+
+        bo.update(dto);
+        clearForm();
     }
 
     @FXML
     void exit(MouseEvent event) {
-
+        // Handle window closing if needed
     }
 
+    @FXML
+    void tblcliked(MouseEvent mouseEvent) {
+        TheraphySessionTm selectedItem = tbtTherapyShedule.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            txtid.setText(selectedItem.getId());
+            txttime.setText(selectedItem.getTime());
+            txtstaus.setText(selectedItem.getStatus());
+            dpSessionDate.setValue(LocalDate.parse(selectedItem.getDate()));
+            cbTheropyprogramme.setValue(selectedItem.getTherapyProgramId());
+            cbPatient.setValue(selectedItem.getPatientId());
+            cbTheropy.setValue(selectedItem.getTherapistId());
+        }
+    }
 }

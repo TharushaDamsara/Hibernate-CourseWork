@@ -4,10 +4,12 @@ import edu.ijse.theserenitymentalhealththerapycenter.bo.SuperBo;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.TheraphySessionDto;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public interface TheraphySessionBo extends SuperBo {
-    ArrayList<TheraphySessionDto> getAll();
-
+    List<TheraphySessionDto> getAll();
+    public Optional<String> getLastPK();
     boolean save(TheraphySessionDto dto);
 
     boolean update(TheraphySessionDto dto);

@@ -8,6 +8,7 @@ import edu.ijse.theserenitymentalhealththerapycenter.entity.TheraphyPorgramme;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TheraphyProgrammeBoImpl implements TheraphyProgrammeBo {
     TheraphyProgrammeDao theraphyProgrammeDao = (TheraphyProgrammeDao) DaoFactory.getInstance().getSuperDao(DaoFactory.daoType.TherapyProgramme);
@@ -16,6 +17,11 @@ public class TheraphyProgrammeBoImpl implements TheraphyProgrammeBo {
     public boolean save(TheraphyPorgrammeDto dto) {
         TheraphyPorgramme theraphyPorgramme = toEntity(dto);
         return theraphyProgrammeDao.save(theraphyPorgramme);
+    }
+
+    @Override
+    public Optional<String> getLastPK() {
+        return Optional.empty();
     }
 
     @Override

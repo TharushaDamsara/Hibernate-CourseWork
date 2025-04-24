@@ -6,12 +6,37 @@ import edu.ijse.theserenitymentalhealththerapycenter.dao.custom.TheraphyProgramm
 import edu.ijse.theserenitymentalhealththerapycenter.entity.TheraphyPorgramme;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class TheraphyProgrammeDaoImpl implements TheraphyProgrammeDao {
+    @Override
+    public TheraphyPorgramme getDetails(String selectedItem) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        session.beginTransaction();
+        TheraphyPorgramme therapyProgram = session.get(TheraphyPorgramme.class, selectedItem);
+        session.getTransaction().commit();
+        session.close();
+        return therapyProgram;
+    }
+
+    @Override
+    public ArrayList<TheraphyPorgramme> getAlprgrammeIds() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        session.beginTransaction();
+
+        Query<TheraphyPorgramme> query = session.createQuery("FROM TheraphyPorgramme", TheraphyPorgramme.class);
+        List<TheraphyPorgramme> results = query.getResultList();
+
+        session.getTransaction().commit();
+        session.close();
+        return (ArrayList<TheraphyPorgramme>) results;
+    }
+
     private final FactoryConfiguration factoryConfiguration = FactoryConfiguration.getInstance();
     @Override
     public boolean save(TheraphyPorgramme theraphyPorgramme) {
@@ -82,5 +107,10 @@ public class TheraphyProgrammeDaoImpl implements TheraphyProgrammeDao {
             }
         }
         return false;
+    }
+
+    @Override
+    public Optional<String> getLastPK() {
+        return Optional.empty();
     }
 }

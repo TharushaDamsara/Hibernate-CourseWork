@@ -14,10 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -28,6 +25,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PatientsMngController implements Initializable {
@@ -159,9 +157,24 @@ public class PatientsMngController implements Initializable {
         genderpicker.setValue("");
         bdaypicker.setValue(null);
 
+        getnextId();
+
 //        btnSave.setDisable(false);
 //        btnDelete.setDisable(true);
 //        btnUpdate.setDisable(true);
+    }
+
+    private void getnextId() {
+        Optional<String> lastPK = patientBo.getLastPK();
+        if (lastPK.isPresent()) {
+            patientidtxt.setText(lastPK.get());
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Id can not Generate");
+            alert.show();
+        }
+
     }
 
     private void tabelLoad() {

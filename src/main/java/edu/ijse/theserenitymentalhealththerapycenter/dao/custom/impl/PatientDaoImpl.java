@@ -3,12 +3,16 @@ package edu.ijse.theserenitymentalhealththerapycenter.dao.custom.impl;
 import edu.ijse.theserenitymentalhealththerapycenter.config.FactoryConfiguration;
 import edu.ijse.theserenitymentalhealththerapycenter.dao.custom.PatientDao;
 import edu.ijse.theserenitymentalhealththerapycenter.entity.Patient;
+import edu.ijse.theserenitymentalhealththerapycenter.entity.TheraphyPorgramme;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class PatientDaoImpl implements PatientDao {
 
@@ -87,5 +91,54 @@ public class PatientDaoImpl implements PatientDao {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public Optional<String> getLastPK() {
+        Session session =null;
+        try  {
+            session = factoryConfiguration.getSession();
+            Long lastpk = session.createQuery("SELECT p.id FROM Patient p ORDER BY p.id DESC ", Long.class).setMaxResults(1).uniqueResult();
+            if (lastpk != null) {
+                Long newpk = lastpk + 1;
+                return Optional.of(newpk.toString());
+            }
+            else {
+                Long newpk = 1L;
+                return Optional.of(newpk.toString());
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
+    public Patient getDetails(String selectedItem) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        session.beginTransaction();
+        Patient patient = session.get(Patient.class, selectedItem);
+        session.getTransaction().commit();
+        session.close();
+        return patient;
+    }
+
+    @Override
+    public ArrayList<Patient> getAlpatientIds() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        session.beginTransaction();
+
+        Query<Patient> query = session.createQuery("FROM Patient", Patient.class);
+        List<Patient> results = query.getResultList();
+
+        session.getTransaction().commit();
+        session.close();
+        return (ArrayList<Patient>) results;
     }
 }

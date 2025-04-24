@@ -8,6 +8,7 @@ import edu.ijse.theserenitymentalhealththerapycenter.entity.Theraphist;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TheraphistBoImpl implements TheraphistBo {
     TheraphistDao theraphistDao = (TheraphistDao) DaoFactory.getInstance().getSuperDao(DaoFactory.daoType.Therapist);
@@ -24,6 +25,11 @@ public class TheraphistBoImpl implements TheraphistBo {
             theraphistDtos.add(theraphistDto);
         }
         return theraphistDtos;
+    }
+
+    @Override
+    public Optional<String> getLastPK() {
+        return Optional.empty();
     }
 
     @Override

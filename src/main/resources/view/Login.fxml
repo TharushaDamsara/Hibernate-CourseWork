@@ -21,7 +21,7 @@
 
         <HBox alignment="CENTER" spacing="10">
             <CheckBox fx:id="showPasswordCheck" onAction="#showPasswordCheck" text="Show Password" />
-            <Hyperlink fx:id="forgotPasswordLink" text="Forgot Password?" />
+            <Hyperlink fx:id="signuplink" onMouseClicked="#signin" text="Sign In" />
         </HBox>
 
         <Button fx:id="loginButton" maxWidth="250" onAction="#Usercheck" style="-fx-background-color: #1976D2; -fx-text-fill: white; -fx-padding: 10px; -fx-border-radius: 10px; -fx-background-radius: 10px;" text="Login" />

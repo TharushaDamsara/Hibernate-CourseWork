@@ -60,6 +60,6 @@
          </image>
       </ImageView>
       <Label fx:id="datelbl" layoutX="510.0" layoutY="19.0" prefHeight="18.0" prefWidth="85.0" text="Date" />
-      <JFXTextField fx:id="txtid" layoutX="13.0" layoutY="82.0" onMouseClicked="#loadpayment" prefHeight="26.0" prefWidth="100.0" text="ID" />
+      <JFXTextField fx:id="txtid" layoutX="13.0" layoutY="82.0" onMouseClicked="#loadpayment" prefHeight="26.0" prefWidth="100.0" promptText="ID" />
    </children>
 </AnchorPane>

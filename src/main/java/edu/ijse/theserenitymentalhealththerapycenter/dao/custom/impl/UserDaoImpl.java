@@ -6,6 +6,7 @@ import edu.ijse.theserenitymentalhealththerapycenter.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
     @Override
@@ -26,5 +27,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean deletebypk(String pk) {
         return false;
+    }
+
+    @Override
+    public Optional<String> getLastPK() {
+        return Optional.empty();
     }
 }

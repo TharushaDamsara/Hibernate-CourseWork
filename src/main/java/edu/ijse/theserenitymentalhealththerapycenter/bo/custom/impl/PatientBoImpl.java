@@ -8,9 +8,15 @@ import edu.ijse.theserenitymentalhealththerapycenter.entity.Patient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PatientBoImpl implements PatientBo {
     PatientDao dao = (PatientDao) DaoFactory.getInstance().getSuperDao(DaoFactory.daoType.Patient);
+
+    @Override
+    public Optional<String> getLastPK() {
+        return dao.getLastPK();
+    }
 
     @Override
     public boolean save(PatientDto patientDto) {
