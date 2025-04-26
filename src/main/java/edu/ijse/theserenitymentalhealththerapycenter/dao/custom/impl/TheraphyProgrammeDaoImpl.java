@@ -37,6 +37,33 @@ public class TheraphyProgrammeDaoImpl implements TheraphyProgrammeDao {
         return (ArrayList<TheraphyPorgramme>) results;
     }
 
+    @Override
+    public double getFee(String selectedItem) {
+        Session session = null;
+        Transaction transaction = null;
+        TheraphyPorgramme therapyProgramme =null;
+
+        try {
+            session = FactoryConfiguration.getInstance().getSession();
+            transaction = session.beginTransaction();
+            therapyProgramme = session.get(TheraphyPorgramme.class, selectedItem);
+            transaction.commit();
+            return therapyProgramme.getFee();
+        }
+        catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+                e.printStackTrace();
+            }
+         return 0.0;
+        }
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
     private final FactoryConfiguration factoryConfiguration = FactoryConfiguration.getInstance();
     @Override
     public boolean save(TheraphyPorgramme theraphyPorgramme) {
@@ -111,6 +138,29 @@ public class TheraphyProgrammeDaoImpl implements TheraphyProgrammeDao {
 
     @Override
     public Optional<String> getLastPK() {
-        return Optional.empty();
+        Session session = null;
+        try {
+            session = factoryConfiguration.getSession();
+            String lastId = session.createQuery(
+                            "SELECT p.id FROM TheraphyPorgramme p ORDER BY p.id DESC", String.class)
+                    .setMaxResults(1)
+                    .uniqueResult();
+
+            if (lastId != null) {
+                int numericPart = Integer.parseInt(lastId.substring(1));
+                int nextId = numericPart + 1;
+                String newId = String.format("G%03d", nextId);
+                return Optional.of(newId);
+            } else {
+                return Optional.of("G001");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

@@ -89,7 +89,31 @@ public class TheraphistDaoImpl implements TheraphistDao {
 
     @Override
     public Optional<String> getLastPK() {
-        return Optional.empty();
+
+        Session session = null;
+        try {
+            session = factoryConfiguration.getSession();
+            String lastId = session.createQuery(
+                            "SELECT p.id FROM Theraphist p ORDER BY p.id DESC", String.class)
+                    .setMaxResults(1)
+                    .uniqueResult();
+
+            if (lastId != null) {
+                int numericPart = Integer.parseInt(lastId.substring(1)); // skip 'P'
+                int nextId = numericPart + 1;
+                String newId = String.format("T%03d", nextId); // T001, T002, ...
+                return Optional.of(newId);
+            } else {
+                return Optional.of("T001");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override

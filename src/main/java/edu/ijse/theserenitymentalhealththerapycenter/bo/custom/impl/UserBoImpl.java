@@ -1,16 +1,31 @@
 package edu.ijse.theserenitymentalhealththerapycenter.bo.custom.impl;
 
 import edu.ijse.theserenitymentalhealththerapycenter.bo.custom.UserBo;
+import edu.ijse.theserenitymentalhealththerapycenter.dao.DaoFactory;
+import edu.ijse.theserenitymentalhealththerapycenter.dao.custom.UserDao;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.UserDto;
+import edu.ijse.theserenitymentalhealththerapycenter.entity.User;
+import edu.ijse.theserenitymentalhealththerapycenter.util.PasswordEncript.PasswordUtils;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class UserBoImpl implements UserBo {
+    @Override
+    public UserDto cheackPassword(String userName) {
+        User user = userDao.cheackPassword(userName);
+        return toUserDTO(user);
+    }
 
     @Override
+    public boolean cheackUser(String userName) {
+        return userDao.cheackUser(userName);
+    }
+
+    UserDao userDao = (UserDao) DaoFactory.getInstance().getSuperDao(DaoFactory.daoType.User);
+    @Override
     public Optional<String> getLastPK() {
-        return Optional.empty();
+        return userDao.getLastPK();
     }
 
     @Override
@@ -25,7 +40,10 @@ public class UserBoImpl implements UserBo {
 
     @Override
     public boolean saveUser(UserDto user) {
-        return false;
+        String password = PasswordUtils.hashPassword(user.getPassword());
+        user.setPassword(password);
+        User user1 = toUser(user);
+        return userDao.save(user1);
     }
 
     @Override
@@ -47,4 +65,21 @@ public class UserBoImpl implements UserBo {
     public boolean isUniqueEmailForUpdate(String email, int id) {
         return false;
     }
+    public static UserDto toUserDTO(User user) {
+        return new UserDto(
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
+                user.getRole()
+        );
+    }
+    public static User toUser(UserDto userDTO) {
+        return new User(
+                userDTO.getId(),
+                userDTO.getUsername(),
+                userDTO.getPassword(),
+                userDTO.getRole()
+        );
+    }
+
 }

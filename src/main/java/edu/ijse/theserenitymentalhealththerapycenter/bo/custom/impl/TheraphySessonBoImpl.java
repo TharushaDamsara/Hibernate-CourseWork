@@ -77,8 +77,9 @@ public class TheraphySessonBoImpl implements TheraphySessionBo {
                     );
                     theraphySessionDto.setTherapyProgram(programmeDto);
                 }
-            }
 
+            }
+            theraphySessionDto.setFee(theraphySession.getFee());
             theraphySessionDtos.add(theraphySessionDto);
         }
 
@@ -87,7 +88,7 @@ public class TheraphySessonBoImpl implements TheraphySessionBo {
 
     @Override
     public Optional<String> getLastPK() {
-        return Optional.empty();
+        return theraphySessionDao.getLastPK();
     }
 
     @Override
@@ -136,6 +137,12 @@ public class TheraphySessonBoImpl implements TheraphySessionBo {
         }
         return altherapistIdList;
     }
+
+    @Override
+    public double getFee(String selectedItem) {
+        return theraphyProgrammeDao.getFee(selectedItem);
+    }
+
     public TheraphySession toEntity(TheraphySessionDto dto) {
         if (theraphySessionDao == null) {
             return null;
@@ -169,6 +176,8 @@ public class TheraphySessonBoImpl implements TheraphySessionBo {
               dto.getTherapyProgram().getFee(),
               null
         ):null);
+
+        tps.setFee(dto.getFee());
 
         return tps;
     }

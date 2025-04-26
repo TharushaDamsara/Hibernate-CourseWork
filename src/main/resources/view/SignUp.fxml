@@ -7,6 +7,8 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -14,10 +16,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.theserenitymentalhealththerapycenter.controller.SignUpController">
+<AnchorPane fx:id="mainAnchor" prefHeight="528.0" prefWidth="794.0" style="-fx-background-color: F7CFD8;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.theserenitymentalhealththerapycenter.controller.SignUpController">
    <children>
-      <VBox alignment="CENTER" layoutX="110.0" layoutY="31.0" prefHeight="390.0" prefWidth="370.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 30;">
+      <VBox alignment="CENTER" layoutX="254.0" layoutY="25.0" prefHeight="390.0" prefWidth="370.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 30;">
          <effect>
             <DropShadow height="20.0" radius="9.5" width="20.0">
                <color>
@@ -34,6 +35,11 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Text>
+            <ImageView fitHeight="42.0" fitWidth="41.0">
+               <image>
+                  <Image url="@../img/icons8-user-30.png" />
+               </image>
+            </ImageView>
             <Label fx:id="lblError" text=" " textFill="RED" />
             <HBox alignment="CENTER_LEFT">
                <VBox.margin>

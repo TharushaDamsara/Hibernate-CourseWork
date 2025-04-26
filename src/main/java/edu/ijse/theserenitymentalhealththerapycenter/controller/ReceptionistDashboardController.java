@@ -32,8 +32,6 @@ public class ReceptionistDashboardController {
     @FXML
     private JFXButton btnTheropySession;
 
-    @FXML
-    private ImageView imgExit;
 
     @FXML
     private Label lblDescription;
@@ -148,4 +146,12 @@ public class ReceptionistDashboardController {
         window.show();
     }
 
+    public void exit(MouseEvent mouseEvent) throws IOException {
+        Stage window = (Stage)btnPatient.getScene().getWindow();
+        window.close();
+        Parent load = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
+        Scene scene = new Scene(load);
+        window.setScene(scene);
+        window.show();
+    }
 }

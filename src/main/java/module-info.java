@@ -10,6 +10,7 @@ module edu.ijse.theserenitymentalhealththerapycenter {
     requires org.hibernate.orm.core;
     requires jakarta.persistence;
     requires java.naming;
+    requires bcrypt;
 
     opens edu.ijse.theserenitymentalhealththerapycenter.entity to org.hibernate.orm.core;
     opens edu.ijse.theserenitymentalhealththerapycenter to org.hibernate.orm.core, jakarta.persistence, javafx.fxml,javafx.base;

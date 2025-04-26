@@ -8,4 +8,6 @@ import java.util.ArrayList;
 public interface TheraphyProgrammeDao extends CrudDao<TheraphyPorgramme> {
     TheraphyPorgramme getDetails(String selectedItem);
     ArrayList<TheraphyPorgramme> getAlprgrammeIds();
+
+    double getFee(String selectedItem);
 }

@@ -4,4 +4,7 @@ import edu.ijse.theserenitymentalhealththerapycenter.dao.CrudDao;
 import edu.ijse.theserenitymentalhealththerapycenter.entity.User;
 
 public interface UserDao extends CrudDao<User> {
+    boolean cheackUser(String userName);
+
+    User cheackPassword(String userName);
 }

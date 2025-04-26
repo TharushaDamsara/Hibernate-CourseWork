@@ -21,4 +21,6 @@ public interface TheraphySessionBo extends SuperBo {
     ArrayList<String> getAlpatientIds();
 
     ArrayList<String> getAltherapistIds();
+
+    double getFee(String selectedItem);
 }

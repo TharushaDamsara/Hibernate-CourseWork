@@ -31,6 +31,8 @@ public class TheraphySession implements SuperEntity{
     @JoinColumn(name = "program_id")
     private TheraphyPorgramme therapyProgram;
 
+    private double fee;
+
     public Optional<Object> findById(String therapySession) {
         return null;
     }

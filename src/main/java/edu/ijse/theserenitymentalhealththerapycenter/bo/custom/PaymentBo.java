@@ -21,4 +21,7 @@ public interface PaymentBo extends SuperBo {
     ArrayList<String> gettheraphyIds();
 
     ArrayList<String> getpatientIds();
+
+
+    Double getpayment(String selectedItem);
 }

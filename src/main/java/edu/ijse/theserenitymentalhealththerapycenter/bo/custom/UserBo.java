@@ -15,4 +15,7 @@ public interface UserBo extends SuperBo {
     boolean update(UserDto dto);
     boolean delete(int id);
     boolean isUniqueEmailForUpdate(String email, int id);
+
+    boolean cheackUser(String userName);
+    UserDto cheackPassword(String userName);
 }

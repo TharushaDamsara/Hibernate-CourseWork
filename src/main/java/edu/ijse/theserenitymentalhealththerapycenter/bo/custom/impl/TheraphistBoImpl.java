@@ -29,7 +29,7 @@ public class TheraphistBoImpl implements TheraphistBo {
 
     @Override
     public Optional<String> getLastPK() {
-        return Optional.empty();
+        return theraphistDao.getLastPK();
     }
 
     @Override

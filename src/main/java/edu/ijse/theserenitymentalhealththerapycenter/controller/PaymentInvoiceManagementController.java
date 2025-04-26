@@ -9,22 +9,29 @@ import edu.ijse.theserenitymentalhealththerapycenter.dto.PatientDto;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.PaymentDto;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.TheraphySessionDto;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.tm.PaymentTm;
+import edu.ijse.theserenitymentalhealththerapycenter.util.AlertsPack.CustomAlerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PaymentInvoiceManagementController implements Initializable {
@@ -80,6 +87,9 @@ public class PaymentInvoiceManagementController implements Initializable {
         datelbl.setText(LocalDate.now().toString());
         loadTabel();
         clearform();
+
+        btnUpdate.setDisable(true);
+        btnDelete.setDisable(true);
     }
 
 
@@ -90,9 +100,15 @@ public class PaymentInvoiceManagementController implements Initializable {
         cbPatients.setValue(null);
         cbTheropy.setValue(null);
         cbStatus.setValue(null);
+        loadTabel();
         loadsatuts();
         loadpatients();
         loadtheropy();
+        genarateId();
+    }
+
+    private void genarateId() {
+        txtid.setText(String.valueOf(paymentBo.getLastPK().orElse("Eror")));
     }
 
     private void loadtheropy() {
@@ -134,6 +150,10 @@ public class PaymentInvoiceManagementController implements Initializable {
         if (resp) {
             loadTabel();
             clearform();
+            CustomAlerts.delete();
+        }
+        else {
+            showError(" somthing Wrong Can not be deleted ");
         }
     }
 
@@ -166,21 +186,28 @@ public class PaymentInvoiceManagementController implements Initializable {
         String patients = cbPatients.getValue();
         String theropy = cbTheropy.getValue();
         String status = cbStatus.getValue();
-
-
         patientDto = new PatientDto();
         patientDto.setId(patients);
 
         theraphySessionDto = new TheraphySessionDto();
         theraphySessionDto.setId(theropy);
 
+    if (id.isEmpty()||payment==0||date==null||patients==null||theropy==null||status == null) {
+        showError(" fields cannot be empty");
+        return;
+    }
         PaymentDto dto = new PaymentDto(id, payment, date, patientDto, theraphySessionDto, status);
         boolean resp = paymentBo.save(dto);
         if (resp) {
             loadTabel();
             clearform();
+            CustomAlerts.saved();
             System.out.println(status);
         }
+        else {
+            showError(" something Wrong Can not be saved ");
+        }
+
     }
 
     @FXML
@@ -214,17 +241,30 @@ public class PaymentInvoiceManagementController implements Initializable {
         theraphySessionDto = new TheraphySessionDto();
         theraphySessionDto.setId(theropy);
 
-        PaymentDto dto = new PaymentDto(id, payment, date, patientDto, theraphySessionDto, status);
+        if (id.isEmpty()||payment==0||date==null||patients==null||theropy==null||status == null) {
+            showError("fields cannot be empty");
+            return;
+        }
+            PaymentDto dto = new PaymentDto(id, payment, date, patientDto, theraphySessionDto, status);
         boolean resp = paymentBo.update(dto);
         if (resp) {
             loadTabel();
             clearform();
+            CustomAlerts.update();
+        }
+        else {
+            showError(" something Wrong Can not be updated ");
         }
     }
 
     @FXML
-    void exit(MouseEvent event) {
-        // Handle exit if needed
+    void exit(MouseEvent event) throws IOException {
+        Stage window = (Stage)btnUpdate.getScene().getWindow();
+        window.close();
+        Parent load = FXMLLoader.load(getClass().getResource("/view/ReceptionistDashboardForm.fxml"));
+        Scene scene = new Scene(load);
+        window.setScene(scene);
+        window.show();
     }
 
     @FXML
@@ -237,6 +277,10 @@ public class PaymentInvoiceManagementController implements Initializable {
             cbStatus.setValue(selectedItem.getStatus());
             cbPatients.setValue(selectedItem.getPatient());
             cbTheropy.setValue(selectedItem.getTherapySessionId());
+
+            btnUpdate.setDisable(false);
+            btnDelete.setDisable(false);
+            btnSave.setDisable(true);
         }
     }
 
@@ -250,5 +294,13 @@ public class PaymentInvoiceManagementController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void getpayment(ActionEvent actionEvent) {
+        String selectedItem = cbTheropy.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+           Double payment = paymentBo.getpayment(selectedItem);
+           txtPayment.setText(String.valueOf(payment));
+        }
     }
 }

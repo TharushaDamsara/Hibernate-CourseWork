@@ -14,19 +14,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.theserenitymentalhealththerapycenter.controller.TherapySessionSchedulingController">
+<AnchorPane prefHeight="528.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ijse.theserenitymentalhealththerapycenter.controller.TherapySessionSchedulingController">
    <children>
-      <JFXTextField fx:id="txtid" layoutX="18.0" layoutY="76.0" prefHeight="26.0" prefWidth="76.0" promptText="Id" />
-      <Label layoutX="169.0" layoutY="30.0" text="Therapy Session Scheduling">
+      <JFXTextField fx:id="txtid" layoutX="72.0" layoutY="78.0" prefHeight="26.0" prefWidth="134.0" promptText="Id" />
+      <Label layoutX="256.0" layoutY="23.0" text="Therapy Session Scheduling">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <Separator layoutX="187.0" layoutY="69.0" prefWidth="200.0" />
-      <JFXTextField fx:id="txtstaus" layoutX="466.0" layoutY="71.0" prefHeight="25.0" prefWidth="108.0" promptText="status" />
-      <JFXComboBox fx:id="cbTheropy" layoutX="282.0" layoutY="75.0" prefHeight="25.0" prefWidth="120.0" promptText="therapy " />
-      <JFXComboBox fx:id="cbPatient" layoutX="129.0" layoutY="76.0" prefHeight="25.0" prefWidth="120.0" promptText="patient" />
-      <TableView fx:id="tbtTherapyShedule" layoutX="-2.0" layoutY="189.0" onMouseClicked="#tblcliked" prefHeight="210.0" prefWidth="600.0">
+      <JFXTextField fx:id="txtstaus" layoutX="592.0" layoutY="79.0" prefHeight="25.0" prefWidth="108.0" promptText="status" />
+      <JFXComboBox fx:id="cbTheropy" layoutX="414.0" layoutY="79.0" prefHeight="25.0" prefWidth="120.0" promptText="theraphist" />
+      <JFXComboBox fx:id="cbPatient" layoutX="243.0" layoutY="80.0" prefHeight="25.0" prefWidth="120.0" promptText="patient" />
+      <TableView fx:id="tbtTherapyShedule" layoutX="57.0" layoutY="276.0" onMouseClicked="#tblcliked" prefHeight="182.0" prefWidth="683.0">
          <columns>
             <TableColumn fx:id="colid" prefWidth="83.99999845027924" text="ID" />
             <TableColumn fx:id="colpatient" prefWidth="101.60004425048828" text="Patient" />
@@ -34,31 +34,38 @@
             <TableColumn fx:id="colStatus" prefWidth="92.0" text="Status" />
             <TableColumn fx:id="colthrpyprgrm" prefWidth="97.59991455078125" text="Programme" />
             <TableColumn fx:id="colDate" prefWidth="75.99996948242188" text="Date" />
-            <TableColumn fx:id="colTime" prefWidth="40.0" text="Time" />
+            <TableColumn fx:id="colTime" prefWidth="48.0" text="Time" />
+            <TableColumn fx:id="colFee" prefWidth="76.800048828125" text="Fee" />
          </columns>
       </TableView>
-      <JFXButton fx:id="btnSave" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="339.0" layoutY="149.0" minHeight="30.0" onAction="#btnSaveOnAction" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #1e272e; -fx-background-radius: 5;" text="Save" textFill="#00f730">
+      <JFXButton fx:id="btnSave" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="480.0" layoutY="217.0" minHeight="30.0" onAction="#btnSaveOnAction" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #1e272e; -fx-background-radius: 5;" text="Save" textFill="#00f730">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="424.0" layoutY="149.0" minHeight="30.0" onAction="#btnUpdateOnAction" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #1e272e; -fx-background-radius: 5;" text="Update" textFill="#eaff00">
+      <JFXButton fx:id="btnUpdate" buttonType="RAISED" layoutX="565.0" layoutY="217.0" minHeight="30.0" onAction="#btnUpdateOnAction" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #1e272e; -fx-background-radius: 5;" text="Update" textFill="#eaff00">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="505.0" layoutY="149.0" minHeight="30.0" onAction="#btnDeleteOnAction" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #1e272e; -fx-background-radius: 5;" text="Delete" textAlignment="CENTER" textFill="RED">
+      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="646.0" layoutY="217.0" minHeight="30.0" onAction="#btnDeleteOnAction" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #1e272e; -fx-background-radius: 5;" text="Delete" textAlignment="CENTER" textFill="RED">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <DatePicker fx:id="dpSessionDate" layoutX="26.0" layoutY="136.0" style="-fx-primary-color: #4d4dff; -fx-background-size: 0; -fx-border-radius: 0; -fx-border-width: 0;" />
+      <DatePicker fx:id="dpSessionDate" layoutX="26.0" layoutY="136.0" promptText="Date" style="-fx-primary-color: #4d4dff; -fx-background-size: 0; -fx-border-radius: 0; -fx-border-width: 0;" />
       <ImageView fx:id="exitbtn" fitHeight="30.0" fitWidth="38.0" layoutX="16.0" layoutY="5.0" onMouseClicked="#exit">
          <image>
             <Image url="@../img/icons8-logout-48.png" />
          </image>
       </ImageView>
       <TextField fx:id="txttime" layoutX="211.0" layoutY="136.0" prefHeight="26.0" prefWidth="76.0" promptText="Time" />
-      <JFXComboBox fx:id="cbTheropyprogramme" layoutX="375.0" layoutY="113.0" prefHeight="26.0" prefWidth="134.0" promptText="therapy Programme" />
+      <JFXComboBox fx:id="cbTheropyprogramme" layoutX="362.0" layoutY="133.0" onAction="#getFee" prefHeight="26.0" prefWidth="134.0" promptText="therapy Programme" />
+      <Label fx:id="txtpayment" layoutX="648.0" layoutY="135.0" prefHeight="30.0" prefWidth="90.0" text="Payment" />
+      <Label layoutX="563.0" layoutY="142.0" prefHeight="18.0" prefWidth="59.0" text="Payment :">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

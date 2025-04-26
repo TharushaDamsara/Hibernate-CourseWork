@@ -23,7 +23,7 @@ public class PaymentBoImpl implements PaymentBo {
 
     @Override
     public Optional<String> getLastPK() {
-        return Optional.empty();
+        return paymentDao.getLastPK();
     }
 
     @Override
@@ -89,6 +89,13 @@ public class PaymentBoImpl implements PaymentBo {
         }
         return id;
     }
+
+    @Override
+    public Double getpayment(String selectedItem) {
+
+        return theraphySessionDao.getPayment(selectedItem);
+    }
+
 
     public static Payment toEntity(PaymentDto paymentDTO){
         if (paymentDTO == null) return null;

@@ -95,29 +95,32 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public Optional<String> getLastPK() {
-        Session session =null;
-        try  {
+        Session session = null;
+        try {
             session = factoryConfiguration.getSession();
-            Long lastpk = session.createQuery("SELECT p.id FROM Patient p ORDER BY p.id DESC ", Long.class).setMaxResults(1).uniqueResult();
-            if (lastpk != null) {
-                Long newpk = lastpk + 1;
-                return Optional.of(newpk.toString());
+            String lastId = session.createQuery(
+                            "SELECT p.id FROM Patient p ORDER BY p.id DESC", String.class)
+                    .setMaxResults(1)
+                    .uniqueResult();
+
+            if (lastId != null) {
+                int numericPart = Integer.parseInt(lastId.substring(1)); // skip 'P'
+                int nextId = numericPart + 1;
+                String newId = String.format("P%03d", nextId); // P001, P002, ...
+                return Optional.of(newId);
+            } else {
+                return Optional.of("P001");
             }
-            else {
-                Long newpk = 1L;
-                return Optional.of(newpk.toString());
-            }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return Optional.empty();
-        }
-        finally {
+        } finally {
             if (session != null) {
                 session.close();
             }
         }
     }
+
 
     @Override
     public Patient getDetails(String selectedItem) {

@@ -10,4 +10,7 @@ public interface TheraphySessionDao extends CrudDao<TheraphySession> {
     TheraphySession getDetails(String selectedItem);
 
     ArrayList<TheraphySession> gettherapyids();
+
+
+    Double getPayment(String selectedItem);
 }

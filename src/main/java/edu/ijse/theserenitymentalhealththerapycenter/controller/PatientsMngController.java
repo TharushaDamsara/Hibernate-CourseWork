@@ -6,6 +6,8 @@ import edu.ijse.theserenitymentalhealththerapycenter.bo.BoFactory;
 import edu.ijse.theserenitymentalhealththerapycenter.bo.custom.PatientBo;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.PatientDto;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.tm.PatientTm;
+import edu.ijse.theserenitymentalhealththerapycenter.util.AlertsPack.CustomAlerts;
+import edu.ijse.theserenitymentalhealththerapycenter.util.validationsPack.Validation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -80,8 +82,18 @@ public class PatientsMngController implements Initializable {
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         String pk = patientidtxt.getText();
-        boolean resp = patientBo.deletebypk(pk);
-        reload();
+
+        boolean b = CustomAlerts.doYouWantToDelete();
+        if (b){
+            boolean resp = patientBo.deletebypk(pk);
+            if (resp) {
+                CustomAlerts.delete();
+                reload();
+            }
+            else {
+                new Alert(Alert.AlertType.ERROR,"somthing went wrong can not delete this item",ButtonType.OK).show();
+            }
+        }
     }
 
     @FXML
@@ -92,10 +104,23 @@ public class PatientsMngController implements Initializable {
         String gender = genderpicker.getValue();
         String bday = String.valueOf(bdaypicker.getValue());
 
-        PatientDto patientDto = new PatientDto(patientid,name,contact,gender,bday);
-        boolean resp = patientBo.save(patientDto);
-        reload();
+        boolean validMobileNumber = Validation.isValidMobileNumber(contact);
 
+        if (validMobileNumber&& !patientidtxt.getText().isEmpty()&&!nametxt.getText().isEmpty()&&!contatcttxt.getText().isEmpty()&&!genderpicker.getValue().isEmpty()&&!bday.isEmpty()) {
+            PatientDto patientDto = new PatientDto(patientid,name,contact,gender,bday);
+            boolean resp = patientBo.save(patientDto);
+
+            if (resp) {
+                CustomAlerts.saved();
+                reload();
+            }
+            else {
+                new Alert(Alert.AlertType.ERROR, "Something went wrong", ButtonType.OK).show();
+            }
+        }
+        else {
+            new Alert(Alert.AlertType.ERROR, " Please Give Valid Details", ButtonType.OK).show();
+        }
     }
 
     @FXML
@@ -108,9 +133,22 @@ public class PatientsMngController implements Initializable {
         System.out.println(gender);
         System.out.println(bday.toString());
 
-        PatientDto patientDto = new PatientDto(patientid,name,contact,gender,bday);
-        boolean resp = patientBo.update(patientDto);
-        reload();
+        boolean validMobileNumber = Validation.isValidMobileNumber(contact);
+        if (validMobileNumber&& !patientidtxt.getText().isEmpty()&&!nametxt.getText().isEmpty()&&!contatcttxt.getText().isEmpty()&&!genderpicker.getValue().isEmpty()&&!bday.isEmpty()) {
+
+            PatientDto patientDto = new PatientDto(patientid, name, contact, gender, bday);
+            boolean resp = patientBo.update(patientDto);
+            if (resp) {
+                CustomAlerts.update();
+                reload();
+            }
+            else {
+                new Alert(Alert.AlertType.ERROR, "Something went wrong", ButtonType.OK).show();
+            }
+        }
+        else {
+            new Alert(Alert.AlertType.ERROR, " Please Give Valid Details", ButtonType.OK).show();
+        }
     }
 
     @FXML
@@ -159,21 +197,13 @@ public class PatientsMngController implements Initializable {
 
         getnextId();
 
-//        btnSave.setDisable(false);
-//        btnDelete.setDisable(true);
-//        btnUpdate.setDisable(true);
+       btnSave.setDisable(false);
+       btnDelete.setDisable(true);
+        btnUpdate.setDisable(true);
     }
 
     private void getnextId() {
-        Optional<String> lastPK = patientBo.getLastPK();
-        if (lastPK.isPresent()) {
-            patientidtxt.setText(lastPK.get());
-        }
-        else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error Id can not Generate");
-            alert.show();
-        }
+        patientidtxt.setText(String.valueOf(patientBo.getLastPK().orElse("Eror")));
 
     }
 
@@ -204,8 +234,10 @@ public class PatientsMngController implements Initializable {
             genderpicker.setValue(selectedItem.getGender());
             bdaypicker.setValue(LocalDate.parse(selectedItem.getBirthDate()));
             btnSave.setDisable(true);
+
             btnDelete.setDisable(false);
             btnUpdate.setDisable(false);
+
 
         }
     }

@@ -6,6 +6,7 @@ import edu.ijse.theserenitymentalhealththerapycenter.bo.BoFactory;
 import edu.ijse.theserenitymentalhealththerapycenter.bo.custom.TheraphyProgrammeBo;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.TheraphyPorgrammeDto;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.tm.TheraphyPorgrammeTm;
+import edu.ijse.theserenitymentalhealththerapycenter.util.AlertsPack.CustomAlerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -36,7 +38,7 @@ public class TherapyProgramsController implements Initializable {
         colDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
         clearFoarm();
-    }
+           }
 
     private void clearFoarm() {
         txtid.setText("");
@@ -44,7 +46,14 @@ public class TherapyProgramsController implements Initializable {
         txtCost.setText("");
         txtDuration.setText("");
 
+        btnUpdate.setDisable(true);
+        btnDelete.setDisable(true);
+        genaratenextId();
         loadtbl();
+    }
+
+    private void genaratenextId() {
+        txtid.setText(String.valueOf(bo.getLastPK().orElse("Eror")));
     }
 
     private void loadtbl() {
@@ -108,7 +117,10 @@ TheraphyProgrammeBo bo = (TheraphyProgrammeBo) BoFactory.getInstance().getboType
     void btnDeleteOnAction(ActionEvent event) {
         String pk = txtid.getText();
         boolean resp = bo.deletebyPk(pk);
-        clearFoarm();
+        if (resp){
+            CustomAlerts.delete();
+            clearFoarm();
+        }
     }
 
     @FXML
@@ -122,9 +134,21 @@ TheraphyProgrammeBo bo = (TheraphyProgrammeBo) BoFactory.getInstance().getboType
         String name = txtName.getText();
         String duration = txtDuration.getText();
         double cost = Double.parseDouble(txtCost.getText());
+
+        if (id.isEmpty()||name.isEmpty()||duration.isEmpty()||cost==0.0) {
+            new Alert(Alert.AlertType.ERROR,"Please Fill the Feilds").show();
+            return;
+        }
          TheraphyPorgrammeDto dto = new TheraphyPorgrammeDto(id, name, duration, cost);
         boolean resp = bo.save(dto);
-        clearFoarm();
+        if (resp) {
+            clearFoarm();
+            CustomAlerts.saved();
+        }
+        else {
+            new Alert(Alert.AlertType.ERROR,"Something went wrong. can not save this").show();
+        }
+
     }
 
     @FXML
@@ -133,9 +157,20 @@ TheraphyProgrammeBo bo = (TheraphyProgrammeBo) BoFactory.getInstance().getboType
         String name = txtName.getText();
         String duration = txtDuration.getText();
         double cost = Double.parseDouble(txtCost.getText());
+
+        if (id.isEmpty()||name.isEmpty()||duration.isEmpty()||cost==0.0) {
+            new Alert(Alert.AlertType.ERROR,"Please Fill the Feilds").show();
+            return;
+        }
         TheraphyPorgrammeDto dto = new TheraphyPorgrammeDto(id, name, duration, cost);
         boolean resp = bo.update(dto);
-        clearFoarm();
+        if (resp) {
+            clearFoarm();
+            CustomAlerts.update();
+        }
+        else {
+            new Alert(Alert.AlertType.ERROR,"Something went wrong. can not update this").show();
+        }
     }
 
     @FXML
@@ -154,7 +189,9 @@ TheraphyProgrammeBo bo = (TheraphyProgrammeBo) BoFactory.getInstance().getboType
         txtName.setText(selectedItem.getName());
         txtDuration.setText(selectedItem.getDuration());
         txtCost.setText(String.valueOf(selectedItem.getFee()));
-
+      btnDelete.setDisable(false);
+      btnUpdate.setDisable(false);
+      btnSave.setDisable(true);
 
     }
 }

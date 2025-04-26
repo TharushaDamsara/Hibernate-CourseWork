@@ -17,4 +17,5 @@ public class TheraphySessionDto  {
     private TheraphistDto therapist;
     private PatientDto patient;
     private TheraphyPorgrammeDto therapyProgram;
+    private double fee;
 }

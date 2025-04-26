@@ -14,15 +14,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,7 +42,8 @@ public class TherapySessionSchedulingController implements Initializable {
     private JFXComboBox<String> cbPatient, cbTheropy, cbTheropyprogramme;
 
     @FXML
-    private TableColumn<String, TheraphySessionTm> colDate, colStatus, colTime, colid, colpatient, coltherapy, colthrpyprgrm;
+    private TableColumn<String, TheraphySessionTm> colDate, colStatus, colTime, colid, colpatient, coltherapy, colthrpyprgrm,colFee;
+
 
     @FXML
     private DatePicker dpSessionDate;
@@ -57,6 +60,9 @@ public class TherapySessionSchedulingController implements Initializable {
     @FXML
     private TextField txttime;
 
+    @FXML
+    private Label txtpayment;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         colid.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -66,6 +72,7 @@ public class TherapySessionSchedulingController implements Initializable {
         coltherapy.setCellValueFactory(new PropertyValueFactory<>("therapistId"));
         colpatient.setCellValueFactory(new PropertyValueFactory<>("patientId"));
         colthrpyprgrm.setCellValueFactory(new PropertyValueFactory<>("therapyProgramId"));
+        colFee.setCellValueFactory(new PropertyValueFactory<>("fee"));
 
         loadCombos();
         loadTable();
@@ -103,7 +110,8 @@ public class TherapySessionSchedulingController implements Initializable {
             String patientId = dto.getPatient() != null ? dto.getPatient().getId() : "N/A";
             String programId = dto.getTherapyProgram() != null ? dto.getTherapyProgram().getProgramId() : "N/A";
 
-            tms.add(new TheraphySessionTm(dto.getId(), dto.getDate(), dto.getTime(), dto.getStatus(), therapistId, patientId, programId));
+            tms.add(new TheraphySessionTm(dto.getId(), dto.getDate(), dto.getTime(), dto.getStatus(), therapistId, patientId, programId,dto.getFee()));
+
         }
 
         tbtTherapyShedule.setItems(tms);
@@ -118,7 +126,14 @@ public class TherapySessionSchedulingController implements Initializable {
         cbTheropyprogramme.setValue(null);
         dpSessionDate.setValue(null);
 
+        btnDelete.setDisable(true);
+        btnUpdate.setDisable(true);
+      getnarateNextId();
         loadTable();
+    }
+
+    private void getnarateNextId() {
+        txtid.setText(String.valueOf(bo.getLastPK().orElse("Eror")));
     }
 
     @FXML
@@ -150,7 +165,9 @@ public class TherapySessionSchedulingController implements Initializable {
         TheraphyPorgrammeDto program = new TheraphyPorgrammeDto();
         program.setProgramId(programId);
 
-        TheraphySessionDto dto = new TheraphySessionDto(id, date, time, status, therapist, patient, program);
+        double fee = Double.parseDouble(txtpayment.getText());
+
+        TheraphySessionDto dto = new TheraphySessionDto(id, date, time, status, therapist, patient, program,fee);
 
         bo.save(dto);
         clearForm();
@@ -176,15 +193,21 @@ public class TherapySessionSchedulingController implements Initializable {
         TheraphyPorgrammeDto program = new TheraphyPorgrammeDto();
         program.setProgramId(programId);
 
-        TheraphySessionDto dto = new TheraphySessionDto(id, date, time, status, therapist, patient, program);
+        double fee = Double.parseDouble(txtpayment.getText());
+        TheraphySessionDto dto = new TheraphySessionDto(id, date, time, status, therapist, patient, program,fee);
 
         bo.update(dto);
         clearForm();
     }
 
     @FXML
-    void exit(MouseEvent event) {
-        // Handle window closing if needed
+    void exit(MouseEvent event) throws IOException {
+        Stage window = (Stage)exitbtn.getScene().getWindow();
+        window.close();
+        Parent load = FXMLLoader.load(getClass().getResource("/view/ReceptionistDashboardForm.fxml"));
+        Scene scene = new Scene(load);
+        window.setScene(scene);
+        window.show();
     }
 
     @FXML
@@ -198,6 +221,19 @@ public class TherapySessionSchedulingController implements Initializable {
             cbTheropyprogramme.setValue(selectedItem.getTherapyProgramId());
             cbPatient.setValue(selectedItem.getPatientId());
             cbTheropy.setValue(selectedItem.getTherapistId());
+
+            btnSave.setDisable(true);
+            btnDelete.setDisable(false);
+            btnUpdate.setDisable(false);
         }
     }
+
+    public void getFee(ActionEvent actionEvent) {
+        String selectedItem = cbTheropyprogramme.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            double fee = bo.getFee(selectedItem);
+            txtpayment.setText(String.valueOf(fee));
+        }
+    }
+
 }

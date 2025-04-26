@@ -8,6 +8,7 @@ import edu.ijse.theserenitymentalhealththerapycenter.bo.custom.TheraphistBo;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.TheraphistDto;
 import edu.ijse.theserenitymentalhealththerapycenter.dto.tm.TheraphistTm;
 import edu.ijse.theserenitymentalhealththerapycenter.entity.Theraphist;
+import edu.ijse.theserenitymentalhealththerapycenter.util.AlertsPack.CustomAlerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -38,6 +40,7 @@ public class TherapistsMngController implements Initializable {
 
         loadtbl();
         clearform();
+
     }
 
     private void clearform() {
@@ -46,6 +49,14 @@ public class TherapistsMngController implements Initializable {
     txtStatus.setText("");
 
     loadtbl();
+    getnextId();
+
+        btnDelete.setDisable(true);
+        btnUpdate.setDisable(true);
+    }
+
+    private void getnextId() {
+        txtid.setText(String.valueOf(bo.getLastPK().orElse("Eror")));
     }
 
     private void loadtbl() {
@@ -114,7 +125,15 @@ TheraphistBo bo = (TheraphistBo) BoFactory.getInstance().getboType(BoFactory.bot
     void btnDeleteOnAction(ActionEvent event) {
         String pk = txtid.getText();
         boolean resp = bo.deletebypk(pk);
-        clearform();
+        if (resp) {
+            clearform();
+            CustomAlerts.delete();
+        }
+        else {
+            new Alert(Alert.AlertType.ERROR,"Somthing went Wrong.Can not be Deleted").show();
+        }
+
+
     }
 
     @FXML
@@ -128,11 +147,20 @@ TheraphistBo bo = (TheraphistBo) BoFactory.getInstance().getboType(BoFactory.bot
         String name = txtName.getText();
         String spec = txtStatus.getText();
 
-
-
+    if (id.isEmpty()||name.isEmpty()||spec.isEmpty()) {
+        new Alert(Alert.AlertType.ERROR,"Please Fill the Feilds").show();
+        return;
+}
         TheraphistDto theraphistDto = new TheraphistDto(id, name, spec);
         boolean resp = bo.save(theraphistDto);
-        clearform();
+        if (resp) {
+            CustomAlerts.saved();
+            clearform();
+        }
+        else {
+            new Alert(Alert.AlertType.ERROR,"Somthing went Wrong.Can not be Saved").show();
+        }
+
     }
 
     @FXML
@@ -141,9 +169,20 @@ TheraphistBo bo = (TheraphistBo) BoFactory.getInstance().getboType(BoFactory.bot
         String name = txtName.getText();
         String spec = txtStatus.getText();
 
+        if (id.isEmpty()||name.isEmpty()||spec.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR,"Please Fill the Feilds").show();
+            return;
+        }
         TheraphistDto theraphistDto = new TheraphistDto(id, name, spec);
         boolean resp = bo.update(theraphistDto);
-        clearform();
+        if (resp) {
+            CustomAlerts.update();
+            clearform();
+        }
+        else {
+            new Alert(Alert.AlertType.ERROR,"Somthing went Wrong.Can not be Updated").show();
+        }
+
     }
 
     public void tblclicked(MouseEvent mouseEvent) {
@@ -152,6 +191,10 @@ TheraphistBo bo = (TheraphistBo) BoFactory.getInstance().getboType(BoFactory.bot
             txtid.setText(selectedItem.getId());
             txtName.setText(selectedItem.getName());
             txtStatus.setText(selectedItem.getSpecialization());
+
+            btnSave.setDisable(true);
+            btnUpdate.setDisable(false);
+            btnDelete.setDisable(false);
         }
     }
 }

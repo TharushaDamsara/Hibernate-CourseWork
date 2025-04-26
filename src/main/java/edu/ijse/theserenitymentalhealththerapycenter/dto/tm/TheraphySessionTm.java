@@ -16,4 +16,5 @@ public class TheraphySessionTm {
     private String therapistId;
     private String patientId;
     private String therapyProgramId;
+    private double fee;
 }

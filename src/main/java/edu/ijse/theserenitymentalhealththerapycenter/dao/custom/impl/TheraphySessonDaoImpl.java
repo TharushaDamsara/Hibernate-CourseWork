@@ -89,7 +89,30 @@ public class TheraphySessonDaoImpl implements TheraphySessionDao {
 
     @Override
     public Optional<String> getLastPK() {
-        return Optional.empty();
+        Session session = null;
+        try {
+            session = factoryConfiguration.getSession();
+            String lastId = session.createQuery(
+                            "SELECT p.id FROM TheraphySession p ORDER BY p.id DESC", String.class)
+                    .setMaxResults(1)
+                    .uniqueResult();
+
+            if (lastId != null) {
+                int numericPart = Integer.parseInt(lastId.substring(1)); // skip 'P'
+                int nextId = numericPart + 1;
+                String newId = String.format("S%03d", nextId); // P001, P002, ...
+                return Optional.of(newId);
+            } else {
+                return Optional.of("S001");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
@@ -113,4 +136,35 @@ public class TheraphySessonDaoImpl implements TheraphySessionDao {
         session.close();
         return (ArrayList<TheraphySession>) resultList;
     }
+
+    @Override
+    public Double getPayment(String selectedItem) {
+        if (selectedItem == null || selectedItem.isEmpty()) {
+            throw new NullPointerException("selectedItem is null or empty");
+        }
+        Session session = null;
+        Transaction transaction = null;
+        TheraphySession theraphySession = null;
+
+        try {
+            session = factoryConfiguration.getSession();
+            theraphySession = session.get(TheraphySession.class, selectedItem);
+            transaction = session.beginTransaction();
+            transaction.commit();
+            System.out.println(theraphySession.getFee());
+        }
+        catch (Exception e){
+            if (transaction != null){
+                transaction.rollback();
+                e.printStackTrace();
+            }
+        }
+        finally {
+            if (session != null){
+                session.close();
+            }
+        }
+        return theraphySession.getFee();
+    }
+
 }

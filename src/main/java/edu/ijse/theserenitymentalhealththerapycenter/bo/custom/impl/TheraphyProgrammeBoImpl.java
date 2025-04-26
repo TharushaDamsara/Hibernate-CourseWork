@@ -21,7 +21,7 @@ public class TheraphyProgrammeBoImpl implements TheraphyProgrammeBo {
 
     @Override
     public Optional<String> getLastPK() {
-        return Optional.empty();
+        return theraphyProgrammeDao.getLastPK();
     }
 
     @Override
